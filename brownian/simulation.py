@@ -12,14 +12,19 @@ class Simulation:
 
     def run(self):
         go = True
+        timer = pygame.time.Clock()
 
         while go:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     go = False
-
+            
+            self.screen.fill((0, 0, 0))
             for particle in self.particles:
+                particle.update()
                 particle.draw(self.screen)
             pygame.display.update()
+
+            timer.tick(100)
 
     
