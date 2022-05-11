@@ -33,7 +33,7 @@ class Particle(pygame.sprite.Sprite):
         if self.drawable:
             pygame.draw.circle(screen, self.color, self.rect.center, self.radius)
 
-    def update(self, time_in_seconds):
+    def update(self, time_in_seconds, screen):
         self.last_x = self.rect.centerx
         self.last_y = self.rect.centery 
 
@@ -42,7 +42,7 @@ class Particle(pygame.sprite.Sprite):
         self.rect.centerx = self.pos_x + self.radius
         self.rect.centery = self.pos_y + self.radius
 
-        width, height = pygame.display.get_surface().get_size()
+        width, height = screen.get_size()
 
         if self.rect.bottom >= height: 
             self.speedy = -self.speedy

@@ -1,5 +1,5 @@
 import pygame
-from text import Text
+from brownian.text import Text
 class Button(pygame.sprite.Sprite):
     def __init__(self, width, height, pos_x, pos_y, text, color=(80, 80, 80), hover_color=(35, 35, 35)):
         super().__init__()

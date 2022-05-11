@@ -24,8 +24,10 @@ class Window:
         self.gui_components.update()
         pygame.display.update()
 
-    def draw(self):
+    def fill(self):
         self.window.fill(self.fill_color, self.screen_rect)
         self.window.fill(self.gui_color, self.gui_rect)
+
+    def draw(self):
         for component in self.gui_components:
             component.draw(self.window)
