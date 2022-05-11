@@ -3,6 +3,7 @@ import numpy.random as random
 import time
 from brownian.particle import Particle
 from brownian.brownian import BrownianParticle
+from brownian.button import Button
 
 class Simulation:
     def __init__(self, screen_width, screen_height, num_of_particles=20, num_of_brownian_particles=1, show_lines=True):
@@ -10,6 +11,9 @@ class Simulation:
 
         self.particles = pygame.sprite.Group()
         self.screen = pygame.display.set_mode([screen_width, screen_height])
+        button = Button(100, 30, 100, 100, "siur")
+        self.gui = pygame.sprite.Group()
+        self.gui.add(button)
         self.screen_width = screen_width
         self.screen_height = screen_height
 
@@ -124,6 +128,8 @@ class Simulation:
                 if event.type == pygame.QUIT:
                     go = False
             
+            self.gui.update()
+            self.gui.draw(self.screen)
             if not self.show_lines:
                 self.screen.fill((0, 0, 0))
             
