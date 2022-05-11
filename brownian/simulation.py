@@ -1,23 +1,35 @@
 import pygame
-import random
+import numpy.random as random
 import time
 from brownian.particle import Particle
 from brownian.brownian import BrownianParticle
 
 class Simulation:
-    def __init__(self, num_of_particles=20):
+    def __init__(self, screen_width, screen_height, num_of_particles=20, num_of_brownian_particles=1, show_lines=True):
         pygame.init()
+
         self.particles = pygame.sprite.Group()
-        self.screen = pygame.display.set_mode([800, 600])
-        self.last_time = self.time = 0
+        self.screen = pygame.display.set_mode([screen_width, screen_height])
+        self.screen_width = screen_width
+        self.screen_height = screen_height
 
-        for i in range(num_of_particles):
-            self.particles.add(Particle(pos_x=random.randint(0, 800), pos_y=random.randint(0, 600), speedx=random.randint(-5, 5), speedy=random.randint(-5, 5), radius=1))
+        self.last_time = 0
+        self.time = 0
 
-        for i in range(5):
-            brownian = Particle(pos_x=100 * i + 20, pos_y=100 * i + 20, speedx=0, speedy=0, radius=5, density=0.25)
-            brownian.color = (255, 255, 255)
-            brownian.drawable = True
+        self.show_lines = show_lines
+
+        self.prepare_particles(num_of_particles, num_of_brownian_particles)
+
+    def prepare_particles(self, num_of_particles, num_of_brownian_particles):
+
+        for _ in range(num_of_particles):
+            particle = Particle(pos_x=random.randint(0, self.screen_width), pos_y=random.randint(0, self.screen_height), 
+                                speedx=random.randint(-5, 5), speedy=random.randint(-5, 5))
+            self.particles.add(particle)
+
+        for _ in range(num_of_brownian_particles):
+            brownian = BrownianParticle(pos_x=random.randint(self.screen_width // 2 - 50, self.screen_width // 2 + 50), 
+                                pos_y=random.randint(self.screen_height // 2 - 50, self.screen_height // 2 + 50))
             self.particles.add(brownian)
 
 
@@ -112,7 +124,8 @@ class Simulation:
                 if event.type == pygame.QUIT:
                     go = False
             
-            self.screen.fill((0, 0, 0))
+            if not self.show_lines:
+                self.screen.fill((0, 0, 0))
             
             for particle in self.particles:
                 self.particles.remove(particle)

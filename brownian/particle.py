@@ -1,6 +1,4 @@
 import pygame
-import numpy as np
-import random
 import math
 
 RED = (255, 0, 0)
@@ -10,27 +8,26 @@ WHITE = (255, 255, 255)
 PURPLE = (255, 255, 0)
 
 class Particle(pygame.sprite.Sprite):
-    def __init__(self, pos_x=400, pos_y=300, speedx=5, speedy=5, radius=5, density=1):
+    def __init__(self, pos_x, pos_y, speedx=5, speedy=5, radius=1, density=1, drawable=False, color=(0, 0, 255)):
         super().__init__()
-
-        self.pos_x = pos_x
-        self.pos_y = pos_y
-        
-        self.speedx = speedx * 50
-        self.speedy = speedy * 50
-        self.mass = (4 / 3 * math.pi * radius ** 3) * density
 
         self.image = pygame.Surface((2 * radius, 2 * radius))
         self.rect = self.image.get_rect()
+
+        self.pos_x = pos_x
+        self.pos_y = pos_y
         self.rect.x = self.pos_x
         self.rect.y = self.pos_y
-        self.color = BLUE
-        self.radius = radius
-
         self.last_x = self.rect.centerx
         self.last_y = self.rect.centery
 
-        self.drawable = True
+        self.radius = radius
+        self.mass = (4 / 3 * math.pi * radius ** 3) * density
+        self.speedx = speedx * 50
+        self.speedy = speedy * 50
+
+        self.drawable = drawable
+        self.color = color
 
     def draw(self, screen):
         if self.drawable:
