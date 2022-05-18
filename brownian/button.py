@@ -1,7 +1,7 @@
 import pygame
 from brownian.text import Text
 class Button(pygame.sprite.Sprite):
-    def __init__(self, width, height, pos_x, pos_y, text, color=(80, 80, 80), hover_color=(35, 35, 35)):
+    def __init__(self, width, height, pos_x, pos_y, text, action, color=(80, 80, 80), hover_color=(35, 35, 35)):
         super().__init__()
 
         self.color = color
@@ -13,17 +13,33 @@ class Button(pygame.sprite.Sprite):
         self.rect.x = pos_x
         self.rect.y = pos_y
 
+        self.action = action
+
+        self.set_text(text)
+
+    def set_text(self, text):
         self.text = text
+        text_width, text_height = text.text_rendered.get_size()
+
+        margin_x = self.rect.x + (self.rect.width - text_width) // 2
+        margin_y = self.rect.y + (self.rect.height - text_height) // 2
+
+        text.set_pos(margin_x, margin_y)
 
     def update(self):
-        mouse = pygame.mouse.get_pos()
+        self.mouse = pygame.mouse.get_pos()
 
-        if self.rect.left <= mouse[0] <= self.rect.right and self.rect.top <= mouse[1] <= self.rect.bottom:
+        if self.rect.left <= self.mouse[0] <= self.rect.right and self.rect.top <= self.mouse[1] <= self.rect.bottom:
             pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
             self.image.fill(self.hover_color)
+
         else:
             pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
             self.image.fill(self.color)
+
+    def click(self):
+        if self.rect.collidepoint(self.mouse):
+            self.action()
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

@@ -9,6 +9,9 @@ class Text:
         self.text = text
         self.text_rendered = self.font.render(text, True, color)
 
+        self.set_pos(pos_x, pos_y)
+
+    def set_pos(self, pos_x, pos_y):
         self.pos = (pos_x, pos_y)
 
     def draw(self, screen):

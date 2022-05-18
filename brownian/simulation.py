@@ -6,26 +6,34 @@ from brownian.brownian import BrownianParticle
 from brownian.button import Button
 
 class Simulation:
-    def __init__(self, window, num_of_particles=20, num_of_brownian_particles=1, show_lines=True):
+    def __init__(self, screen, num_of_particles=20, num_of_brownian_particles=1, show_lines=True):
         pygame.init()
 
         self.particles = pygame.sprite.Group()
         
-        self.window = window
-        self.screen_width, self.screen_height = window.screen.get_size()
+        self.screen_width = 0
+        self.screen_height = 0
 
         self.last_time = 0
         self.time = 0
 
         self.show_lines = show_lines
 
+        self.num_of_particles = num_of_particles
+        self.num_of_brownian_particles = num_of_brownian_particles
+
+        self.set_screen(screen)
         self.prepare_particles(num_of_particles, num_of_brownian_particles)
+
+    def set_screen(self, screen):
+        self.screen_width, self.screen_height = screen.get_size()
+        self.screen = screen
 
     def prepare_particles(self, num_of_particles, num_of_brownian_particles):
 
         for _ in range(num_of_particles):
             particle = Particle(pos_x=random.randint(0, self.screen_width), pos_y=random.randint(0, self.screen_height), 
-                                speedx=random.randint(-5, 5), speedy=random.randint(-5, 5))
+                                speedx=random.randint(-5, 5), speedy=random.randint(-5, 5), drawable=True)
             self.particles.add(particle)
 
         for _ in range(num_of_brownian_particles):
@@ -114,34 +122,41 @@ class Simulation:
         particle2.rect.centerx = newXj
         particle2.rect.centery = newYj
 
-    def run(self):
+    def update_simulation(self):
+        for particle in self.particles:
+            self.particles.remove(particle)
+            particle.update(time.time() - (self.start_time + self.time), self.screen)
+            
+            particle.draw(self.screen)
+            hits = pygame.sprite.spritecollide(particle, self.particles, False)
+
+            for hit in hits:
+                self.collide_particles(particle, hit)
+
+            self.particles.add(particle)
+
+        self.last_time = self.time
+        self.time += (time.time() - (self.start_time + self.time))
+
+
+    def simulate(self):
         go = True
-        timer = pygame.time.Clock()
         self.time = 0
-        start = time.time()
+        self.start_time = time.time()
+        timer = pygame.time.Clock()
 
         while go:
-            self.window.fill()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     go = False
-            
-            for particle in self.particles:
-                self.particles.remove(particle)
-                particle.update(time.time() - (self.time + start), self.window.screen)
-                particle.draw(self.window.window)
-                hits = pygame.sprite.spritecollide(particle, self.particles, False)
 
-                for hit in hits:
-                    self.collide_particles(particle, hit)
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        go = False
 
-                self.particles.add(particle)
+            self.screen.fill((0, 0, 0))
 
-            self.window.draw()
-            self.window.update()
-            self.last_time = self.time
-            self.time += (time.time() - (self.time + start))
+            self.update_simulation()
+            pygame.display.update()
 
             timer.tick(100)
-
-    
