@@ -7,12 +7,15 @@ class Text:
 
         self.font = pygame.font.SysFont(font_name, font_size)
         self.text = text
-        self.text_rendered = self.font.render(text, True, color)
+        self.update()
 
         self.set_pos(pos_x, pos_y)
 
     def set_pos(self, pos_x, pos_y):
         self.pos = (pos_x, pos_y)
+
+    def update(self):
+        self.text_rendered = self.font.render(self.text, True, self.color)
 
     def draw(self, screen):
         screen.blit(self.text_rendered, self.pos)

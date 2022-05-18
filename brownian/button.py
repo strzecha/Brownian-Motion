@@ -1,6 +1,6 @@
+from brownian.gui_component import GUIComponent
 import pygame
-from brownian.text import Text
-class Button(pygame.sprite.Sprite):
+class Button(GUIComponent):
     def __init__(self, width, height, pos_x, pos_y, text, action, color=(80, 80, 80), hover_color=(35, 35, 35)):
         super().__init__()
 

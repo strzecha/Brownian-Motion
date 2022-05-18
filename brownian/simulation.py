@@ -6,7 +6,7 @@ from brownian.brownian import BrownianParticle
 from brownian.button import Button
 
 class Simulation:
-    def __init__(self, screen, num_of_particles=20, num_of_brownian_particles=1, show_lines=True):
+    def __init__(self, screen, num_of_particles=20, num_of_brownian_particles=1, show_lines=True, use_wiener=False):
         pygame.init()
 
         self.particles = pygame.sprite.Group()
@@ -23,7 +23,17 @@ class Simulation:
         self.num_of_brownian_particles = num_of_brownian_particles
 
         self.set_screen(screen)
+        
+
+        if use_wiener:
+            self.update_simulation = self.update_wiener
+            num_of_particles = 0
+        else:
+            self.update_simulation = self.update_physics
+
         self.prepare_particles(num_of_particles, num_of_brownian_particles)
+
+        
 
     def set_screen(self, screen):
         self.screen_width, self.screen_height = screen.get_size()
@@ -122,7 +132,7 @@ class Simulation:
         particle2.rect.centerx = newXj
         particle2.rect.centery = newYj
 
-    def update_simulation(self):
+    def update_physics(self):
         for particle in self.particles:
             self.particles.remove(particle)
             particle.update(time.time() - (self.start_time + self.time), self.screen)
@@ -137,6 +147,11 @@ class Simulation:
 
         self.last_time = self.time
         self.time += (time.time() - (self.start_time + self.time))
+
+    def update_wiener(self):
+        for particle in self.particles:
+            particle.update_wiener()
+            particle.draw(self.screen)
 
 
     def simulate(self):
