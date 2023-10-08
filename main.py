@@ -1,8 +1,13 @@
-from brownian.brownian import BrownianParticle
-from brownian.simulation import Simulation
+from brownian.window import Window
+import pygame
+
+pygame.init()
 
 def main():
-    sim = Simulation(10)
-    sim.run()
+    win = Window(600, 600, (125, 125, 125))
+    
+    win.start()
+
+
 
 main()

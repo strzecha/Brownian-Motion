@@ -1,36 +1,67 @@
 import pygame
 import numpy as np
 
-class Particle(pygame.sprite.Sprite):
-    def __init__(self, pos_x=400, pos_y=300, speedx=5, speedy=5, radius=5):
-        super().__init__()
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
+WHITE = (255, 255, 255)
+PURPLE = (255, 255, 0)
 
-        self.pos_x = pos_x
-        self.pos_y = pos_y
-        self.speedx = speedx
-        self.speedy = speedy
+R = 8.31446261815324 # J / (mol * K)
+K_b = 1.380649 * 10 ** (-23)
+
+# vsr = sqrt ( 3 * K_b * T / m )
+# M - masa molowa
+
+class Particle(pygame.sprite.Sprite):
+    def __init__(self, pos_x, pos_y, mass_atomic=1, radius=1, temperature=0, drawable=False, color=(0, 0, 255)):
+        super().__init__()
 
         self.image = pygame.Surface((2 * radius, 2 * radius))
         self.rect = self.image.get_rect()
+
+        self.pos_x = pos_x
+        self.pos_y = pos_y
         self.rect.x = self.pos_x
         self.rect.y = self.pos_y
-        self.color = (np.random.randint(0, 255), np.random.randint(0, 255), np.random.randint(0, 255))
+        self.last_x = self.rect.centerx
+        self.last_y = self.rect.centery
+
         self.radius = radius
+        self.mass = mass_atomic * 0.166 * 10 ** (-26) # kg
+        self.temperature = temperature
+
+        self.speed_avg = (3 * K_b * temperature / self.mass) ** 0.5
+        self.speedx = np.random.uniform(-self.speed_avg, self.speed_avg)
+        self.speedy = (self.speed_avg ** 2 - self.speedx ** 2) ** 0.5 * (1 if np.random.random() > 0.5 else -1)
+
+        self.drawable = drawable
+        self.color = color
 
     def draw(self, screen):
-        pygame.draw.circle(screen, self.color, self.rect.center, self.radius)
+        if self.drawable:
+            pygame.draw.circle(screen, self.color, self.rect.center, self.radius)
 
-    def update(self):
-        self.rect.centerx += self.speedx
-        self.rect.centery += self.speedy
+    def update(self, time_in_seconds, screen):
+        self.last_x = self.rect.centerx
+        self.last_y = self.rect.centery 
 
-        width, height = pygame.display.get_surface().get_size()
+        self.pos_x += self.speedx * time_in_seconds
+        self.pos_y += self.speedy * time_in_seconds
+        self.rect.centerx = self.pos_x + self.radius
+        self.rect.centery = self.pos_y + self.radius
 
-        if self.rect.bottom >= height or self.rect.top <= 0:
+        width, height = screen.get_size()
+
+        if self.rect.bottom >= height: 
             self.speedy = -self.speedy
-        if self.rect.left <= 0 or self.rect.right >= width:
+            self.rect.bottom = height
+        if self.rect.top <= 0:
+            self.speedy = -self.speedy
+            self.rect.top = 0
+        if self.rect.left <= 0:
             self.speedx = -self.speedx
-
-
-
-        
+            self.rect.left = 0
+        if self.rect.right >= width:
+            self.speedx = -self.speedx
+            self.rect.right = width
