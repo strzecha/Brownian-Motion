@@ -1,7 +1,7 @@
 import pygame
 
-from brownian.gui_component import GUIComponent
-from brownian.text import Text
+from gui.gui_component import GUIComponent
+from gui.text import Text
 
 class InputText(GUIComponent):
     """Class InputText

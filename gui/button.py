@@ -1,6 +1,6 @@
 import pygame
 
-from brownian.gui_component import GUIComponent
+from gui.gui_component import GUIComponent
 
 class Button(GUIComponent):
     """Class Button

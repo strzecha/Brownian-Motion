@@ -1,11 +1,11 @@
 import pygame
 
-from brownian.input_text import InputText
-from brownian.text import Text
-from brownian.button import Button
 from brownian.simulation import Simulation
-from brownian.label import Label
-from brownian.check_box import CheckBox
+from gui.input_text import InputText
+from gui.text import Text
+from gui.button import Button
+from gui.label import Label
+from gui.check_box import CheckBox
 
 class Window:
     """Class Window
