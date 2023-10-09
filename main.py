@@ -1,3 +1,6 @@
+"""Main script
+"""
+
 from brownian.window import Window
 
 def main():
