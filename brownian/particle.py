@@ -16,7 +16,7 @@ K_b = 1.380649 * 10 ** (-23)
 class Particle(pygame.sprite.Sprite):
     """Class Particle
     
-    Class to representation of particle
+    Class to representation of common particle
     """
 
     def __init__(self, pos_x, pos_y, mass_atomic=1, radius=1, temperature=0, drawable=False, color=(0, 0, 255)):
@@ -72,7 +72,7 @@ class Particle(pygame.sprite.Sprite):
             time_in_seconds (int): time of motion
             screen (pygame.display): screen
         """
-        
+
         self.last_x = self.rect.centerx
         self.last_y = self.rect.centery 
 

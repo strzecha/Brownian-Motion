@@ -1,5 +1,3 @@
-import pygame
-
 from brownian.window import Window
 
 def main():
