@@ -11,7 +11,7 @@ R = 8.31446261815324 # J / (mol * K)
 K_b = 1.380649 * 10 ** (-23)
 
 # vsr = sqrt ( 3 * K_b * T / m )
-# M - masa molowa
+# M - mol mass
 
 class Particle(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y, mass_atomic=1, radius=1, temperature=0, drawable=False, color=(0, 0, 255)):

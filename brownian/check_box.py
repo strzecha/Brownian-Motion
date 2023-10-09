@@ -1,5 +1,6 @@
-from brownian.gui_component import GUIComponent
 import pygame
+
+from brownian.gui_component import GUIComponent
 
 class CheckBox(GUIComponent):
     def __init__(self, pos_x, pos_y, radius):

@@ -1,6 +1,6 @@
-from brownian.gui_component import GUIComponent
 import pygame
 
+from brownian.gui_component import GUIComponent
 from brownian.text import Text
 
 class InputText(GUIComponent):
@@ -42,7 +42,6 @@ class InputText(GUIComponent):
         else:
             self.image.fill((210, 210, 210))
 
-
     def handle_event(self, event):
         if self.active:
             if event.type == pygame.KEYDOWN:
@@ -60,6 +59,3 @@ class InputText(GUIComponent):
 
     def get_text(self):
         return self.text.text
-
-
-    

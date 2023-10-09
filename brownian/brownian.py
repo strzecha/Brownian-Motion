@@ -1,4 +1,5 @@
 import numpy.random as random
+
 from brownian.particle import Particle
 
 class BrownianParticle(Particle):
@@ -16,5 +17,3 @@ class BrownianParticle(Particle):
 
         self.rect.centerx = max(0, min(self.pos_x, width))
         self.rect.centery = max(0, min(self.pos_y, height))
-
-        

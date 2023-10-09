@@ -1,5 +1,4 @@
 from brownian.gui_component import GUIComponent
-import pygame
 from brownian.text import Text
 
 class Label(GUIComponent):

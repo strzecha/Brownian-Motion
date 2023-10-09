@@ -1,5 +1,7 @@
-from brownian.gui_component import GUIComponent
 import pygame
+
+from brownian.gui_component import GUIComponent
+
 class Button(GUIComponent):
     def __init__(self, width, height, pos_x, pos_y, text, action, color=(80, 80, 80), hover_color=(35, 35, 35)):
         super().__init__()
@@ -41,5 +43,4 @@ class Button(GUIComponent):
     def draw(self, screen):
         screen.blit(self.image, self.rect)
         self.text.draw(screen)
-
-    
+ 

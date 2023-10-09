@@ -1,3 +1,5 @@
+import pygame
+
 from brownian.input_text import InputText
 from brownian.text import Text
 from brownian.button import Button
@@ -5,10 +7,10 @@ from brownian.simulation import Simulation
 from brownian.label import Label
 from brownian.check_box import CheckBox
 
-import pygame
-
 class Window:
     def __init__(self, screen_width, screen_height, fill_color):
+        pygame.init()
+
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.window = pygame.display.set_mode((screen_width, screen_height))
@@ -108,7 +110,6 @@ class Window:
         self.mass_brownian_input = InputText(200, 30, 300, pos_y_bounce+125, default=10)
         self.add_component(self.mass_brownian_input)
 
-
     def start_simulation(self):
         num_of_particles = int(self.particles_input.get_text())
         num_of_brownian = int(self.brownian_input.get_text())
@@ -136,7 +137,6 @@ class Window:
         self.gui_components.update()   
         pygame.display.update()
         
-
     def fill(self):
         self.window.fill(self.fill_color)
 
@@ -158,4 +158,3 @@ class Window:
             self.fill()
             self.draw()
             self.update()
-

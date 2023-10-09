@@ -1,9 +1,9 @@
 import pygame
 import numpy.random as random
 import time
+
 from brownian.particle import Particle
 from brownian.brownian import BrownianParticle
-from brownian.button import Button
 
 class Simulation:
     def __init__(self, screen, num_of_particles=20, radius_particles=1, mass_particles=1, drawable_particles=True, num_of_brownian_particles=1, radius_brownian=5, mass_brownian=5, temperature=273, show_lines=True, use_wiener=False):
@@ -39,8 +39,6 @@ class Simulation:
 
         self.prepare_particles(num_of_particles, radius_particles, mass_particles, drawable_particles, num_of_brownian_particles, radius_brownian, mass_brownian, temperature)
 
-        
-
     def set_screen(self, screen):
         self.screen_width, self.screen_height = screen.get_size()
         self.screen = screen
@@ -57,7 +55,6 @@ class Simulation:
                                 pos_y=random.randint(self.screen_height // 2 - 50, self.screen_height // 2 + 50),
                                 mass_atomic=mass_brownian, radius=radius_brownian, temperature=0,)
             self.particles.add(brownian)
-
 
     def get_contact_time(self, particle1, particle2):
         x1 = particle1.last_x
@@ -150,7 +147,6 @@ class Simulation:
         for particle in self.particles:
             particle.update_wiener(self.screen)
             particle.draw(self.screen)
-
 
     def simulate(self):
         go = True
