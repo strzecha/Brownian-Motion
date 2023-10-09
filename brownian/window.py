@@ -8,7 +8,20 @@ from brownian.label import Label
 from brownian.check_box import CheckBox
 
 class Window:
+    """Class Window
+
+    Class to representation of window
+    """
+
     def __init__(self, screen_width, screen_height, fill_color):
+        """Init method
+
+        Args:
+            screen_width (int): width of window
+            screen_height (int): height of window
+            fill_color (tuple): color of window's background
+        """
+
         pygame.init()
 
         self.screen_width = screen_width
@@ -111,6 +124,9 @@ class Window:
         self.add_component(self.mass_brownian_input)
 
     def start_simulation(self):
+        """Method to prepare simulation on window
+        """
+
         num_of_particles = int(self.particles_input.get_text())
         num_of_brownian = int(self.brownian_input.get_text())
 
@@ -131,20 +147,38 @@ class Window:
         sim.simulate()
 
     def add_component(self, component):
+        """Method to add new component to window
+
+        Args:
+            component (GUIComponent): new component
+        """
+
         self.gui_components.add(component)
 
     def update(self):
+        """Update method
+        """
+
         self.gui_components.update()   
         pygame.display.update()
         
     def fill(self):
+        """Method to fill window with color
+        """
+        
         self.window.fill(self.fill_color)
 
     def draw(self):
+        """Method to draw all components on window
+        """
+        
         for component in self.gui_components:
             component.draw(self.window)
 
     def start(self):
+        """Main method
+        """
+        
         go = True
 
         while go:
